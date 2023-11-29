@@ -72,6 +72,8 @@ class Logic (QMainWindow, Ui_MainWindow):
                 grade = 'Senior'
             midterm = int((self.input_midterm.text()))
             final = int((self.input_final.text()))
+            final_score = (midterm + final)//2
+            self.score_list.append(final_score)
 
             row = [last_name, first_name, grade, midterm, final, final_grade,gpa]
             with open('grade_info.csv', 'a', newline="") as info:
@@ -80,7 +82,6 @@ class Logic (QMainWindow, Ui_MainWindow):
                 info.close()
         except:
             self.Error_message.insertPlainText(f'Please input the correct information.')
-
         self.student_num += 1
         self.clear()
 
@@ -88,6 +89,7 @@ class Logic (QMainWindow, Ui_MainWindow):
 # final submission/ display the GPA for each student
     def final_submit(self):
         self.student_score()
+        self.maximum()
         self.GPA_display.insertPlainText(f'A')
         self.final_message.insertPlainText(f'Please check the csv file')
         self.clear()
