@@ -31,10 +31,10 @@ class Logic (QMainWindow, Ui_MainWindow):
             final = int((self.input_final.text()))
             final_score = (midterm + final)//2
             self.score_list.append(final_score)
+            self.student_num += 1
             return last_name,first_name,grade,midterm,final,final_score
         except:
             self.Error_message.insertPlainText(f'Please input the correct information.')
-        self.student_num += 1
         self.clear()
 
         # returning a score list to use it to determining GPA
