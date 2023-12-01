@@ -88,8 +88,6 @@ class Logic (QMainWindow, Ui_MainWindow):
     def clear(self):
         self.input_first.clear()
         self.input_last.clear()
-        self.input_midterm()
-        self.input_final()
-        self.Error_message.clear()
-        self.freshman.setChecked(True)
+        self.input_midterm.clear()
+        self.input_final.clear()
 
