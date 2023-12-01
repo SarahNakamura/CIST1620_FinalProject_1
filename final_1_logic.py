@@ -45,21 +45,8 @@ class Logic (QMainWindow, Ui_MainWindow):
         except:
             self.Error_message.insertPlainText(f'Please input the correct information.')
         self.clear()
-
-        # returning a score list to use it to determining GPA
-        #def student_gpa(self):
-            #student_number = self.student_num
-            # score = input(f'Enter {student_num} score(s): ')
-            #score_list = score.split()
-            #if len(score_list) > student_number:
-                #score_list = score_list[:student_number]
-            #else:
-                #while len(score_list) < student_number:
-                    #score = input(f'Enter {student_number} score(s): ')
-                    #score_list = score.split()
-            #return score_list
-
-        # determine the GPA
+        
+# determine the GPA and grade in letter
     def determine_grade(self):
         info = self.retrieve_information()
         average = (info[3] + info[4])/2
@@ -106,10 +93,3 @@ class Logic (QMainWindow, Ui_MainWindow):
         self.Error_message.clear()
         self.freshman.setChecked(True)
 
-
-
-
-
-#creating a csv file for final grade report
-def submit(self):
-    first_name = self.
