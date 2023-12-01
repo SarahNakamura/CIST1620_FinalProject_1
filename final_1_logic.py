@@ -3,7 +3,6 @@ from PyQt6.QtWidgets import *
 from GPA import *
 
 class Logic (QMainWindow, Ui_MainWindow):
-    student_num = 0
     score_list = []
 
     def __init__(self):
@@ -11,14 +10,19 @@ class Logic (QMainWindow, Ui_MainWindow):
         self.setupUi(self)
 
         self.submit_student_buttom.clicked.connect(lambda: self.student_submit())
-        self.submit_final_button.clicked.connect(lambda:self.final_submit())
+        self.submit_final_button.clicked.connect(lambda: self.final_submit())
 
 # submitting the student information
 # count number of students as student information is submitted
     def student_submit(self):
-        self.retrieve_information() # return row of student information
         self.write_csv_file() # input student information
         self.clear() # clear student information input
+
+# final submission/ display the GPA for each student
+    def final_submit(self):
+        self.GPA_display.insertPlainText(f'!!!')
+        self.final_message.insertPlainText(f'Please check the csv file')
+        self.clear()
 
 # retrieve student information from input \
 # create a list of retrieved information(fist,last,school year,midterm,final,average)
@@ -39,12 +43,9 @@ class Logic (QMainWindow, Ui_MainWindow):
             final = int((self.input_final.text()))
             average = (midterm + final)//2
             self.score_list.append(average)
-            self.student_num += 1
-            row = [last_name,first_name,school_year,midterm,final]
-            return row
+            return last_name, first_name, school_year, midterm, final
         except:
             self.Error_message.insertPlainText(f'Please input the correct information.')
-        self.clear()
 
 # determine the GPA and grade in letter
     def determine_grade(self):
@@ -68,22 +69,17 @@ class Logic (QMainWindow, Ui_MainWindow):
         self.Error_message.insertPlainText(f"{info[0]} {info[1]}'s grade for this semester is {student_grade}")
         return student_gpa
 
-
-
     def write_csv_file(self):
         row = self.retrieve_information()
+        info_list = []
+        i = 0
+        while i <= 4:
+            info_list.append(row[i])
+            i += 1
         with open('grade_info.csv', 'a', newline="") as info:
             write_info = writer(info)
-            write_info.writerow(row)
+            write_info.writerow(info_list)
             info.close()
-
-
-# final submission/ display the GPA for each student
-    def final_submit(self):
-        self.student_score()
-        self.GPA_display.insertPlainText(f'A')
-        self.final_message.insertPlainText(f'Please check the csv file')
-        self.clear()
 
     def clear(self):
         self.input_first.clear()
