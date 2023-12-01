@@ -45,7 +45,7 @@ class Logic (QMainWindow, Ui_MainWindow):
         except:
             self.Error_message.insertPlainText(f'Please input the correct information.')
         self.clear()
-        
+
 # determine the GPA and grade in letter
     def determine_grade(self):
         info = self.retrieve_information()
