@@ -16,23 +16,32 @@ class Logic (QMainWindow, Ui_MainWindow):
 # submitting the student information
 # count number of students as student information is submitted
     def student_submit(self):
+        self.retrieve_information() # return row of student information
+        self.write_csv_file() # input student information
+        self.clear() # clear student information input
+
+# retrieve student information from input \
+# create a list of retrieved information(fist,last,school year,midterm,final,average)
+# append average score to a separate list
+    def retrieve_information(self):
         try:
             first_name = str((self.input_first.text()))
             last_name = str((self.input_last.text()))
             if self.freshman.isChecked():
-                grade = 'Freshman'
+                school_year = 'Freshman'
             elif self.sophomore.isChecked():
-                grade = 'Sophomore'
+                school_year = 'Sophomore'
             elif self.junior.isChecked():
-                grade = 'Junior'
+                school_year = 'Junior'
             else:
-                grade = 'Senior'
+                school_year = 'Senior'
             midterm = int((self.input_midterm.text()))
             final = int((self.input_final.text()))
-            final_score = (midterm + final)//2
-            self.score_list.append(final_score)
+            average = (midterm + final)//2
+            self.score_list.append(average)
             self.student_num += 1
-            return last_name,first_name,grade,midterm,final,final_score
+            row = [last_name,first_name,school_year,midterm,final]
+            return row
         except:
             self.Error_message.insertPlainText(f'Please input the correct information.')
         self.clear()
@@ -50,38 +59,32 @@ class Logic (QMainWindow, Ui_MainWindow):
                     #score_list = score.split()
             #return score_list
 
-        # determine the maximum score
-    def maximum(self,):
-        y = 0
-        for i in score1:
-            ind_score = int(i)
-            if ind_score > y:
-                y = ind_score
-        return y
-
         # determine the GPA
-    def determine_gpa(self):
-        scores = student_score(num_students)
-        best = maximum(scores)
-        x = 0
-        student_number = 1
-        while x < num_students:
-            a = int(scores[x])
-            if a >= (best - 10):
-                print(f'Student {student_number} score is {a} and grade is A')
-            elif a >= (best - 20):
-                print(f'Student {student_number} score is {a} and grade is B')
-            elif a >= (best - 30):
-                print(f'Student {student_number} score is {a} and grade is C')
-            elif a >= (best - 40):
-                print(f'Student {student_number} score is {a} and grade is D')
-            else:
-                print(f'Student {student_number} score is {a} and grade is F')
-            x += 1
-            student_number += 1
+    def determine_grade(self):
+        info = self.retrieve_information()
+        average = (info[3] + info[4])/2
+        if average >= 90:
+            student_grade = 'A'
+            student_gpa = 4.0
+        elif average >= 80:
+            student_grade = 'B'
+            student_gpa = 3.5
+        elif average >= 70:
+            student_grade = 'C'
+            student_gpa = 3.0
+        elif average >= 60:
+            student_grade = 'D'
+            student_gpa = 2.0
+        else:
+            student_grade = 'F'
+            student_gpa = 1.0
+        self.Error_message.insertPlainText(f"{info[0]} {info[1]}'s grade for this semester is {student_grade}")
+        return student_gpa
 
-    def write_csv_file(self,last_name,first_name,grade,midterm,final,final_score,gpa):
-        row = [last_name, first_name, grade, midterm, final, final_score, gpa]
+
+
+    def write_csv_file(self):
+        row = self.retrieve_information()
         with open('grade_info.csv', 'a', newline="") as info:
             write_info = writer(info)
             write_info.writerow(row)
@@ -91,7 +94,6 @@ class Logic (QMainWindow, Ui_MainWindow):
 # final submission/ display the GPA for each student
     def final_submit(self):
         self.student_score()
-        self.maximum()
         self.GPA_display.insertPlainText(f'A')
         self.final_message.insertPlainText(f'Please check the csv file')
         self.clear()
