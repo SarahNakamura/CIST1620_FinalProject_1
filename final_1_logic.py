@@ -66,7 +66,6 @@ class Logic (QMainWindow, Ui_MainWindow):
             return False
         else:
             info_list = list(information)
-            print(info_list)
             average = (info_list[3] + info_list[4])/2
             if average >= 90:
                 student_grade = 'A'
