@@ -55,39 +55,50 @@ class Logic (QMainWindow, Ui_MainWindow):
         except:
             self.Error_message.clear()
             self.Error_message.insertPlainText(f'Please input the correct information.')
+            row = []
+            return row
 
 # determine the GPA and grade in letter
     def determine_grade(self,information):
-        info_list = list(information)
-        average = (info_list[3] + info_list[4])/2
-        if average >= 90:
-            student_grade = 'A'
-            student_gpa = 4.0
-        elif average >= 80:
-            student_grade = 'B'
-            student_gpa = 3.5
-        elif average >= 70:
-            student_grade = 'C'
-            student_gpa = 3.0
-        elif average >= 60:
-            student_grade = 'D'
-            student_gpa = 2.0
+        if len(list(information)) == 0:
+            self.Error_message.clear()
+            self.Error_message.insertPlainText(f'Please input the correct information.')
+            return False
         else:
-            student_grade = 'F'
-            student_gpa = 1.0
-        self.gpa_list.append(student_gpa)
-        self.Error_message.clear()
-        self.Error_message.insertPlainText(f"{info_list[0]} {info_list[1]}'s average score is {average:.2f} "
-                                           f"and the grade for this semester is {student_grade}.")
-        return self.gpa_list
+            info_list = list(information)
+            print(info_list)
+            average = (info_list[3] + info_list[4])/2
+            if average >= 90:
+                student_grade = 'A'
+                student_gpa = 4.0
+            elif average >= 80:
+                student_grade = 'B'
+                student_gpa = 3.5
+            elif average >= 70:
+                student_grade = 'C'
+                student_gpa = 3.0
+            elif average >= 60:
+                student_grade = 'D'
+                student_gpa = 2.0
+            else:
+                student_grade = 'F'
+                student_gpa = 1.0
+            self.gpa_list.append(student_gpa)
+            self.Error_message.clear()
+            self.Error_message.insertPlainText(f"{info_list[0]} {info_list[1]}'s average score is {average:.2f} "
+                                               f"and the grade for this semester is {student_grade}.")
+            return self.gpa_list
 
     def write_csv_file(self, information):
-        info_list = list(information)
-        with open('grade_info.csv', 'a', newline="") as info:
-            write_info = writer(info)
-            write_info.writerow(info_list)
-            info.close()
-        return 'grade_info.csv'
+        if len(list(information)) == 0:
+            return False
+        else:
+            info_list = list(information)
+            with open('grade_info.csv', 'a', newline="") as info:
+                write_info = writer(info)
+                write_info.writerow(info_list)
+                info.close()
+            return 'grade_info.csv'
 
     def gpa_display(self, gpa_list):
         student_gpa = list(gpa_list)
