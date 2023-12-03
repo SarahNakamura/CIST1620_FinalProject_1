@@ -20,9 +20,9 @@ class Logic (QMainWindow, Ui_MainWindow):
 # count number of students as student information is submitted
     def student_submit(self):
         self.retrieve_information()
-        self.write_csv_file(self.retrieve_information()) # input student information
-        self.determine_grade(self.retrieve_information()) # determine the grade letter
-        self.student_clear() # clear student information input
+        self.write_csv_file(self.retrieve_information())  # input student information
+        self.determine_grade(self.retrieve_information())  # determine the grade letter
+        self.student_clear()  # clear student information input
 
 
 # final submission/ display the GPA for each student
@@ -78,7 +78,7 @@ class Logic (QMainWindow, Ui_MainWindow):
         self.gpa_list.append(student_gpa)
         self.Error_message.clear()
         self.Error_message.insertPlainText(f"{info_list[0]} {info_list[1]}'s average score is {average:.2f} "
-                                           f"and the grade for this semester is {student_grade}")
+                                           f"and the grade for this semester is {student_grade}.")
         return self.gpa_list
 
     def write_csv_file(self, information):
@@ -96,7 +96,7 @@ class Logic (QMainWindow, Ui_MainWindow):
             reader_object = csv.reader(file_object)
             while i < len(student_gpa):
                 for row in reader_object:
-                    self.GPA_display.insertPlainText(f"{row[0]} {row[1]}'s GPA is {student_gpa[i]}\n")
+                    self.GPA_display.insertPlainText(f"{row[0]} {row[1]}'s GPA is {student_gpa[i]}.\n")
                     i += 1
 
     def student_clear(self): # clear individual student information
